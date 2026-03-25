@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { 
@@ -12,9 +11,9 @@ import {
 } from '../components/ui/select';
 import { Toaster, toast } from 'sonner';
 import { 
-  Briefcase, Search, Plus, Download, Upload, LogOut, 
+  Briefcase, Search, Plus, Download, Upload,
   BarChart3, Settings, Trash2, Edit, ExternalLink,
-  Mail, Phone, Linkedin, ChevronDown
+  Mail, Phone, Linkedin
 } from 'lucide-react';
 import JobModal from '../components/JobModal';
 import ColumnModal from '../components/ColumnModal';
@@ -38,7 +37,6 @@ const PRIORITY_COLORS = {
 };
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
   const [jobs, setJobs] = useState([]);
   const [columns, setColumns] = useState([]);
   const [stats, setStats] = useState({ total: 0, by_status: {}, by_priority: {}, monthly: [] });
@@ -53,9 +51,9 @@ export default function Dashboard() {
   const fetchData = useCallback(async () => {
     try {
       const [jobsRes, columnsRes, statsRes] = await Promise.all([
-        axios.get(`${API}/api/jobs`, { withCredentials: true }),
-        axios.get(`${API}/api/columns`, { withCredentials: true }),
-        axios.get(`${API}/api/stats`, { withCredentials: true }),
+        axios.get(`${API}/api/jobs`),
+        axios.get(`${API}/api/columns`),
+        axios.get(`${API}/api/stats`),
       ]);
       setJobs(jobsRes.data);
       setColumns(columnsRes.data);
@@ -74,7 +72,7 @@ export default function Dashboard() {
 
   const handleExport = async () => {
     try {
-      const { data } = await axios.get(`${API}/api/jobs/export/all`, { withCredentials: true });
+      const { data } = await axios.get(`${API}/api/jobs/export/all`);
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -97,7 +95,7 @@ export default function Dashboard() {
       try {
         const data = JSON.parse(ev.target?.result);
         if (!Array.isArray(data.jobs)) throw new Error('Invalid format');
-        await axios.post(`${API}/api/jobs/import`, data, { withCredentials: true });
+        await axios.post(`${API}/api/jobs/import`, data);
         toast.success(`Imported ${data.jobs.length} jobs`);
         fetchData();
       } catch (err) {
@@ -111,7 +109,7 @@ export default function Dashboard() {
   const handleDeleteJob = async (id) => {
     if (!window.confirm('Delete this application?')) return;
     try {
-      await axios.delete(`${API}/api/jobs/${id}`, { withCredentials: true });
+      await axios.delete(`${API}/api/jobs/${id}`);
       toast.success('Job deleted');
       fetchData();
     } catch {
@@ -129,10 +127,6 @@ export default function Dashboard() {
     const matchPriority = priorityFilter === 'all' || job.priority === priorityFilter;
     return matchSearch && matchStatus && matchPriority;
   });
-
-  const handleLogout = async () => {
-    await logout();
-  };
 
   if (loading) {
     return (
@@ -155,7 +149,7 @@ export default function Dashboard() {
             </div>
             <div>
               <h1 className="font-heading text-lg font-bold tracking-tight">Job Tracker</h1>
-              <p className="text-xs text-gray-500 font-mono">{user?.email}</p>
+              <p className="text-xs text-gray-500 font-mono">TRACK YOUR CAREER</p>
             </div>
           </div>
           
@@ -216,16 +210,6 @@ export default function Dashboard() {
             >
               <Plus className="w-4 h-4" strokeWidth={2} />
               Add Job
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleLogout}
-              className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
-              style={{ borderRadius: '2px' }}
-              data-testid="logout-btn"
-            >
-              <LogOut className="w-4 h-4" strokeWidth={1.5} />
             </Button>
           </div>
         </div>

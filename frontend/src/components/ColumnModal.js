@@ -30,7 +30,7 @@ export default function ColumnModal({ columns, onClose, onUpdate }) {
 
     setLoading(true);
     try {
-      await axios.post(`${API}/api/columns`, newColumn, { withCredentials: true });
+      await axios.post(`${API}/api/columns`, newColumn);
       toast.success('Column added');
       setNewColumn({ name: '', field_type: 'text', options: [] });
       onUpdate();
@@ -45,7 +45,7 @@ export default function ColumnModal({ columns, onClose, onUpdate }) {
     if (!window.confirm('Delete this column? Data in existing jobs will be preserved.')) return;
     
     try {
-      await axios.delete(`${API}/api/columns/${id}`, { withCredentials: true });
+      await axios.delete(`${API}/api/columns/${id}`);
       toast.success('Column deleted');
       onUpdate();
     } catch {

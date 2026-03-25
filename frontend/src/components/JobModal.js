@@ -73,10 +73,10 @@ export default function JobModal({ job, columns, onClose, onSave }) {
     setLoading(true);
     try {
       if (job) {
-        await axios.put(`${API}/api/jobs/${job.id}`, form, { withCredentials: true });
+        await axios.put(`${API}/api/jobs/${job.id}`, form);
         toast.success('Job updated');
       } else {
-        await axios.post(`${API}/api/jobs`, form, { withCredentials: true });
+        await axios.post(`${API}/api/jobs`, form);
         toast.success('Job added');
       }
       onSave();
