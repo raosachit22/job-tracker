@@ -1,34 +1,97 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
+/* Job Tracker App Styles */
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #0f0f10;
+.App {
     min-height: 100vh;
+    background-color: #0A0A0A;
+}
+
+/* Login background */
+.login-bg {
+    background-image: url('https://static.prod-images.emergentagent.com/jobs/c7f7148c-7379-4702-b524-357a388b7f01/images/5ba47bbedf32ec9d873e0b0f4afee8c038d121fce432acc376e46ab83cfad77e.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.login-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Empty state */
+.empty-state-bg {
+    background-image: url('https://static.prod-images.emergentagent.com/jobs/c7f7148c-7379-4702-b524-357a388b7f01/images/17f00cdac47f3d986e330a2068010d6d92283369c088e47327e175edd4b808b0.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Priority indicators */
+.priority-high {
+    background-color: #EF4444;
+}
+
+.priority-medium {
+    background-color: #E5FE40;
+}
+
+.priority-low {
+    background-color: #6B7280;
+}
+
+/* Stats bar */
+.stats-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    gap: 12px;
+    padding: 16px 24px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.App-link {
-    color: #61dafb;
+.stats-item:last-child {
+    border-right: none;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Table hover */
+.table-row:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Transitions */
+.transition-all {
+    transition: all 0.2s ease;
+}
+
+/* Modal overlay */
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+/* Contact chip */
+.contact-chip {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    padding: 8px 12px;
+}
+
+/* Link style */
+.link-accent {
+    color: #E5FE40;
+    text-decoration: none;
+}
+
+.link-accent:hover {
+    text-decoration: underline;
+}
+
+/* Chart container */
+.chart-container {
+    background-color: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    padding: 24px;
 }
